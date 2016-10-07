@@ -6,6 +6,10 @@ Inverts the colors on webpages
 
 ![Google, Product Hunt, and Stack Overflow inverted](http://i.imgur.com/o32xpvB.jpg)
 
+It should even work with YouTube!
+
+![YouTube inverted](http://i.imgur.com/AkhGO0U.jpg)
+
 ## What are all the hotkeys I can use?
 
 - **Ctrl+Alt+I** will enable/disable Inverter
