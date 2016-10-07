@@ -13,9 +13,9 @@ Inverts the colors on webpages
 ## How do I install it?
 
 1. Get [TamperMonkey](https://tampermonkey.net/) or another userscript manager
-2. Install via GitHub by [clicking here]().
+2. Install via GitHub by [clicking here](https://github.com/skoshy/Inverter/raw/master/userscript.user.js).
 
-This script is also cross-posted to [Greasy Fork]()
+This script is also cross-posted to [Greasy Fork](https://greasyfork.org/en/scripts/23828-inverter)
 
 ## Known Issues
 
