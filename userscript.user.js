@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.1.1
+// @version      0.1.2
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @updateURL    https://github.com/skoshy/Inverter/raw/master/userscript.user.js
@@ -35,6 +35,13 @@ html, body, body > div {
 css.messenger = {};
 css.messenger.css = `
 /* Custom CSS can go here */
+`;
+css.youtube = {};
+css.youtube.css = `
+.player-api
+{filter: invert(1);}
+.player-api video
+{filter: inherit;}
 `;
 css.none = {};
 css.none.css = ``;
@@ -78,6 +85,7 @@ function getSetCurrentSite() {
     var url = document.documentURI;
 
     if (url.indexOf('messenger.com') != -1) return currentSite = 'messenger';
+    if (url.indexOf('youtube.com') != -1) return currentSite = 'youtube';
 
     return currentSite = 'none';
 }
