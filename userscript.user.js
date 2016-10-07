@@ -2,9 +2,10 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.1.0
+// @version      0.1.1
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
+// @updateURL    https://github.com/skoshy/Inverter/raw/master/userscript.user.js
 // @match        *://*/*
 // @grant        GM_getValue
 // @grant        GM_setValue
