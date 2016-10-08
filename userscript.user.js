@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.1.3
+// @version      0.1.4
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @updateURL    https://github.com/skoshy/Inverter/raw/master/userscript.user.js
@@ -44,6 +44,10 @@ css.youtube.css = `
 {filter: inherit;}
 #theater-background
 {background: white !important;}
+#player-playlist
+{filter: invert(1);}
+#player-playlist img
+{filter: invert(0);}
 `;
 css.none = {};
 css.none.css = ``;
