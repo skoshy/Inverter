@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.1.4
+// @version      0.1.5
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @updateURL    https://github.com/skoshy/Inverter/raw/master/userscript.user.js
@@ -22,14 +22,28 @@ css.common = {};
 css.common.css = `
 html {
   filter: invert(1);
+  min-height: 100%;
+  background-color: black;
 }
 
-img, figure, video {
+img, figure, video, picture {
   filter: invert(1);
 }
 
-html, body, body > div {
-   background-color: white;
+body, body > div {
+  background-color: white;
+}
+
+iframe[src*="youtube.com"], iframe[src*="vimeo.com"] {
+  filter: invert(1);
+}
+
+twitterwidget::shadow .MediaCard-media {
+  filter: invert(1);
+}
+
+twitterwidget::shadow .Avatar {
+  filter: invert(1);
 }
 `;
 css.messenger = {};
