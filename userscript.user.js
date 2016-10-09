@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.1.5
+// @version      0.1.6
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @updateURL    https://github.com/skoshy/Inverter/raw/master/userscript.user.js
@@ -27,6 +27,10 @@ html {
 }
 
 img, figure, video, picture {
+  filter: invert(1);
+}
+
+*[style*="url('https:"], *[style*="url('http:"], *[style*="url('://"] {
   filter: invert(1);
 }
 
@@ -62,6 +66,14 @@ css.youtube.css = `
 {filter: invert(1);}
 #player-playlist img
 {filter: invert(0);}
+`;
+css.twitter = {};
+css.twitter.css = `
+.PermalinkOverlay-with-background /* overlay when clicking on a tweet */
+{background: rgba(255,255,255,.55);}
+
+iframe
+{background-color: white; filter: invert(1);}
 `;
 css.none = {};
 css.none.css = ``;
@@ -106,6 +118,7 @@ function getSetCurrentSite() {
 
     if (url.indexOf('messenger.com') != -1) return currentSite = 'messenger';
     if (url.indexOf('youtube.com') != -1) return currentSite = 'youtube';
+    if (url.indexOf('twitter.com') != -1) return currentSite = 'twitter';
 
     return currentSite = 'none';
 }
