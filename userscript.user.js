@@ -12,6 +12,20 @@
 // @grant        GM_setValue
 // @grant        GM_deleteValue
 // ==/UserScript==
+// ==UserScript==
+// @name         Inverter
+// @icon         http://i.imgur.com/wBrRGXc.png
+// @namespace    skoshy.com
+// @version      0.2.1
+// @description  Inverts webpages with a hotkey
+// @author       Stefan Koshy
+// @run-at       document-start
+// @updateURL    https://github.com/skoshy/Inverter/raw/master/userscript.user.js
+// @match        *://*/*
+// @grant        GM_getValue
+// @grant        GM_setValue
+// @grant        GM_deleteValue
+// ==/UserScript==
 
 var currentSite = '';
 var scriptId = 'inverter';
@@ -38,7 +52,8 @@ img, figure, video, picture {
   filter: invert(1);
 }
 
-*[style*="url('https:"], *[style*="url('http:"], *[style*="url('://"] {
+*[style*="url('https:"], *[style*="url('http:"], *[style*="url('://"],
+*[style*="url('blob:"], *[style*="blob:"] {
   filter: invert(1);
 }
 
