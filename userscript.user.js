@@ -2,21 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.0
-// @description  Inverts webpages with a hotkey
-// @author       Stefan Koshy
-// @run-at       document-start
-// @updateURL    https://github.com/skoshy/Inverter/raw/master/userscript.user.js
-// @match        *://*/*
-// @grant        GM_getValue
-// @grant        GM_setValue
-// @grant        GM_deleteValue
-// ==/UserScript==
-// ==UserScript==
-// @name         Inverter
-// @icon         http://i.imgur.com/wBrRGXc.png
-// @namespace    skoshy.com
-// @version      0.2.1
+// @version      0.2.2
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -90,6 +76,11 @@ css.youtube.css = `
 #player-playlist img
 {filter: invert(0);}
 `;
+css.facebook = {};
+css.facebook.css = `
+i /* Emoji and other small icons */
+{filter: invert(1);}
+`;
 css.twitter = {};
 css.twitter.css = `
 .PermalinkOverlay-with-background /* overlay when clicking on a tweet */
@@ -162,6 +153,7 @@ function getSetCurrentSite() {
     if (url.indexOf('messenger.com') != -1) return currentSite = 'messenger';
     if (url.indexOf('youtube.com') != -1) return currentSite = 'youtube';
     if (url.indexOf('twitter.com') != -1) return currentSite = 'twitter';
+  if (url.indexOf('facebook.com') != -1) return currentSite = 'facebook';
 
     return currentSite = 'none';
 }
