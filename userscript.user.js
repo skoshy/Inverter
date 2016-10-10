@@ -2,17 +2,25 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.1.6
+// @version      0.2.0
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
+// @run-at       document-start
 // @updateURL    https://github.com/skoshy/Inverter/raw/master/userscript.user.js
 // @match        *://*/*
 // @grant        GM_getValue
 // @grant        GM_setValue
+// @grant        GM_deleteValue
 // ==/UserScript==
 
 var currentSite = '';
 var scriptId = 'inverter';
+
+var timers = {};
+timers.lastToggle = 0; // default the last toggle to nothing
+
+var options = {};
+options.toggleDelayMs = 200; // number of milliseconds delay there needs to be to switch from toggle mode to save inversion mode
 
 var css = {};
 css.defaults = {};
@@ -101,17 +109,37 @@ function parseCSS(parsed) {
 }
 
 document.addEventListener("keydown", function(e) {
-    if (e.altKey === true && e.shiftKey === false && e.ctrlKey === true && e.metaKey === false && e.code == 'KeyI') {
-        // toggle style
-        var cssEl = document.getElementById(scriptId+'-css');
+  if (e.altKey === true && e.shiftKey === false && e.ctrlKey === true && e.metaKey === false && e.code == 'KeyI') {
+	var timestamp = new Date();
+	timestamp = timestamp.getTime();
+	
+	if (timers.lastToggle > timestamp-options.toggleDelayMs) {
+	  if (isInverterEnabled()) {
+		GM_setValue('enabled_'+document.domain, true);
+		alert('Saved inversion for'+document.domain);
+	  } else {
+		GM_deleteValue('enabled_'+document.domain);
+		alert('Deleted inversion setting for'+document.domain);
+	  }
+	} else {
+	  // toggle style
+	  var cssEl = document.getElementById(scriptId+'-css');
 
-        if (cssEl.disabled === false) {
-            cssEl.disabled = true;
-        } else {
-            cssEl.disabled = false;
-        }
-    }
+	  if (isInverterEnabled()) {
+		cssEl.disabled = true;
+	  } else {
+		cssEl.disabled = false;
+	  }
+	}
+	
+	timers.lastToggle = timestamp;
+  }
 });
+
+function isInverterEnabled() {
+  var cssEl = document.getElementById(scriptId+'-css');
+  return cssEl.disabled === false;
+}
 
 function getSetCurrentSite() {
     var url = document.documentURI;
@@ -126,7 +154,7 @@ function getSetCurrentSite() {
 function init() {
     getSetCurrentSite();
 
-    var styleEnabled = false; // don't automatically enable
+    var styleEnabled = GM_getValue( 'enabled_'+document.domain , false );
 
     addGlobalStyle(parseCSS(
         css.common.css + css[currentSite].css

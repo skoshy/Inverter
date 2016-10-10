@@ -13,6 +13,7 @@ It should even work with YouTube!
 ## What are all the hotkeys I can use?
 
 - **Ctrl+Alt+I** will enable/disable Inverter
+- Press **Ctrl+Alt+I** twice to save the inversion setting for the current domain you're on
 
 ## How do I install it?
 
