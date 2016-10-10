@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.2
+// @version      0.2.3
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -84,7 +84,7 @@ i /* Emoji and other small icons */
 css.twitter = {};
 css.twitter.css = `
 .PermalinkOverlay-with-background /* overlay when clicking on a tweet */
-{background: rgba(255,255,255,.55);}
+{background: rgba(255,255,255,.55) !important;}
 
 iframe
 {background-color: white; filter: invert(1);}
@@ -162,6 +162,7 @@ function init() {
     getSetCurrentSite();
 
     var styleEnabled = GM_getValue( 'enabled_'+document.domain , false );
+    if (inIframe()) { styleEnabled = false; }
 
     addGlobalStyle(parseCSS(
         css.common.css + css[currentSite].css
@@ -181,5 +182,13 @@ function addEvent(obj, evt, fn) {
     }
     else if (obj.attachEvent) {
         obj.attachEvent("on" + evt, fn);
+    }
+}
+
+function inIframe () {
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
     }
 }
