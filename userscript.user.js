@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.3
+// @version      0.2.4
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -38,7 +38,7 @@ img, figure, video, picture {
   filter: invert(1);
 }
 
-*[style*="url('https:"], *[style*="url('http:"], *[style*="url('://"],
+*[style*="url('https:"], *[style*="url('http:"], *[style*="url('://"], *[style*="url(/"],
 *[style*="url('blob:"], *[style*="blob:"] {
   filter: invert(1);
 }
@@ -58,6 +58,9 @@ twitterwidget::shadow .MediaCard-media {
 twitterwidget::shadow .Avatar {
   filter: invert(1);
 }
+
+.gbii /* This is for multiple Google Domains to reinvert the profile icon in the top right */
+{filter: invert(1);}
 `;
 css.messenger = {};
 css.messenger.css = `
