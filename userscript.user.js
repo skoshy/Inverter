@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.5
+// @version      0.2.6
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -36,6 +36,10 @@ html {
 
 img, figure, video, picture {
   filter: invert(1);
+}
+
+figure img { /* no need to invert imgs in figures */
+  filter: invert(0);
 }
 
 *[style*="url('https:"], *[style*="url('http:"], *[style*="url('://"], *[style*="url(/"],
