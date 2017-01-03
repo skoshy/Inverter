@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.6
+// @version      0.2.8
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -42,10 +42,18 @@ figure img { /* no need to invert imgs in figures */
   filter: invert(0);
 }
 
-*[style*="url('https:"], *[style*="url('http:"], *[style*="url('://"], *[style*="url(/"],
-*[style*="url('blob:"], *[style*="blob:"] {
-  filter: invert(1);
-}
+*[style*="url(/"],
+*[style*="blob:"],
+*[style*="url('https:"],
+*[style*="url('http:"],
+*[style*="url('://"],
+*[style*="url('blob:"],
+*[style*='url("https:'],
+*[style*='url("https:'],
+*[style*='url("http:'],
+*[style*='url("://'],
+*[style*='url("blob:']
+{ filter: invert(1); }
 
 body, body > div {
   background-color: white;
@@ -69,6 +77,8 @@ twitterwidget::shadow .Avatar {
 css.messenger = {};
 css.messenger.css = `
 /* Custom CSS can go here */
+._5l-3[id*="id_thread"] /* Group Chat icons */
+{filter: invert(0);}
 `;
 css.youtube = {};
 css.youtube.css = `
@@ -100,6 +110,10 @@ css.twitter.css = `
 
 iframe
 {background-color: white; filter: invert(1);}
+`;
+css.soundcloud = {};
+css.soundcloud.css = `
+span[style]
 `;
 css.none = {};
 css.none.css = ``;
