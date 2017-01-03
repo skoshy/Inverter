@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.8
+// @version      0.2.7
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -69,8 +69,8 @@ twitterwidget::shadow .Avatar {
 css.messenger = {};
 css.messenger.css = `
 /* Custom CSS can go here */
-._5l-3[id*="id_thread"] /* Group Chat icons */
-{filter: invert(0);}
+._1ht1._1ht2 /* Group Chat icons */
+{filter: invert(1);}
 `;
 css.youtube = {};
 css.youtube.css = `
