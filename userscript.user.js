@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.9
+// @version      0.2.10
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -79,6 +79,11 @@ css.messenger.css = `
 /* Custom CSS can go here */
 ._5l-3[id*="id_thread"] /* Group Chat icons */
 {filter: invert(0);}
+`;
+css.inbox = {};
+css.inbox.css = `
+img[src*="ssl.gstatic.com"], img[src*="www.gstatic.com"]
+{ filter: invert(0); }
 `;
 css.youtube = {};
 css.youtube.css = `
@@ -179,13 +184,18 @@ function isInverterEnabled() {
 
 function getSetCurrentSite() {
     var url = document.documentURI;
+	
+	currentSite = 'none'
 
-    if (url.indexOf('messenger.com') != -1) return currentSite = 'messenger';
-    if (url.indexOf('youtube.com') != -1) return currentSite = 'youtube';
-    if (url.indexOf('twitter.com') != -1) return currentSite = 'twitter';
-  if (url.indexOf('facebook.com') != -1) return currentSite = 'facebook';
+    if (url.indexOf('messenger.com') != -1) currentSite = 'messenger';
+    if (url.indexOf('youtube.com') != -1) currentSite = 'youtube';
+    if (url.indexOf('twitter.com') != -1) currentSite = 'twitter';
+    if (url.indexOf('inbox.google.com') != -1) currentSite = 'inbox';
+	if (url.indexOf('facebook.com') != -1) currentSite = 'facebook';
 
-    return currentSite = 'none';
+	console.log('Detected site for '+scriptId+' script: '+currentSite);
+	
+    return currentSite;
 }
 
 function init() {
