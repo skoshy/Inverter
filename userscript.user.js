@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.10
+// @version      0.2.12
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -80,10 +80,24 @@ css.messenger.css = `
 ._5l-3[id*="id_thread"] /* Group Chat icons */
 {filter: invert(0);}
 `;
+css.gmail = {};
+css.gmail.css = `
+iframe[src*="hangouts.google.com"]
+{ filter: invert(1); }
+`;
 css.inbox = {};
 css.inbox.css = `
 img[src*="ssl.gstatic.com"], img[src*="www.gstatic.com"]
 { filter: invert(0); }
+nav#GH > .b4 /* Header bar, kepp the same color */
+{ filter: invert(1); }
+iframe[src*="hangouts.google.com"]
+{ filter: invert(1); }
+`;
+css.hangouts = {};
+css.hangouts.css = `
+.Ik:not(.uB) /* Chat Headers */
+{ filter: invert(1); }
 `;
 css.youtube = {};
 css.youtube.css = `
@@ -157,10 +171,10 @@ document.addEventListener("keydown", function(e) {
 	if (timers.lastToggle > timestamp-options.toggleDelayMs) {
 	  if (isInverterEnabled()) {
 		GM_setValue('enabled_'+document.domain, true);
-		alert('Saved inversion for'+document.domain);
+		alert('Saved inversion for '+document.domain);
 	  } else {
 		GM_deleteValue('enabled_'+document.domain);
-		alert('Deleted inversion setting for'+document.domain);
+		alert('Deleted inversion setting for '+document.domain);
 	  }
 	} else {
 	  // toggle style
@@ -191,6 +205,8 @@ function getSetCurrentSite() {
     if (url.indexOf('youtube.com') != -1) currentSite = 'youtube';
     if (url.indexOf('twitter.com') != -1) currentSite = 'twitter';
     if (url.indexOf('inbox.google.com') != -1) currentSite = 'inbox';
+	if (url.indexOf('hangouts.google.com') != -1) currentSite = 'hangouts';
+	if (url.indexOf('mail.google.com') != -1) currentSite = 'gmail';
 	if (url.indexOf('facebook.com') != -1) currentSite = 'facebook';
 
 	console.log('Detected site for '+scriptId+' script: '+currentSite);
@@ -202,7 +218,9 @@ function init() {
     getSetCurrentSite();
 
     var styleEnabled = GM_getValue( 'enabled_'+document.domain , false );
-    if (inIframe()) { styleEnabled = false; }
+  
+    console.log('Inversion Enabled for site ('+currentSite+'): '+styleEnabled);
+    // if (inIframe()) { styleEnabled = false; }
 
     addGlobalStyle(parseCSS(
         css.common.css + css[currentSite].css
