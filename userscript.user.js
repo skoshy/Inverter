@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.8
+// @version      0.2.9
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -110,6 +110,10 @@ css.twitter.css = `
 
 iframe
 {background-color: white; filter: invert(1);}
+
+.is-generic-video {
+	filter: invert(1);
+}
 `;
 css.soundcloud = {};
 css.soundcloud.css = `
