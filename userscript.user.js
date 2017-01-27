@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.12
+// @version      0.2.13
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -95,6 +95,7 @@ iframe[src*="hangouts.google.com"]
 { filter: invert(1); }
 `;
 css.hangouts = {};
+css.hangouts.enableInIframe = true;
 css.hangouts.css = `
 .Ik:not(.uB) /* Chat Headers */
 { filter: invert(1); }
@@ -220,7 +221,7 @@ function init() {
     var styleEnabled = GM_getValue( 'enabled_'+document.domain , false );
   
     console.log('Inversion Enabled for site ('+currentSite+'): '+styleEnabled);
-    // if (inIframe()) { styleEnabled = false; }
+    if (inIframe() && isFalsy(css[currentSite].enableInIframe)) { styleEnabled = false; }
 
     addGlobalStyle(parseCSS(
         css.common.css + css[currentSite].css
@@ -233,6 +234,22 @@ init();
 * Utility functions
 */
 
+function isTruthy(item) {
+	return !isFalsy(item);
+}
+
+function isFalsy(item) {
+	if (
+		typeof item == "undefined"
+		|| item === false
+		|| item == ""
+		|| item.length == 0
+		|| (typeof item == "object" && Object.keys(item).length == 0)
+	)
+		return true;
+	else
+		return false;
+}
 
 function addEvent(obj, evt, fn) {
     if (obj.addEventListener) {
