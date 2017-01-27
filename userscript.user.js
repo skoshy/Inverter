@@ -240,11 +240,8 @@ function isTruthy(item) {
 
 function isFalsy(item) {
 	if (
-		typeof item == "undefined"
-		|| item === false
-		|| item == ""
-		|| item.length == 0
-		|| (typeof item == "object" && Object.keys(item).length == 0)
+		!item
+		|| (typeof item == "object" && Object.keys(item).length == 0) // for empty objects, like {}, []
 	)
 		return true;
 	else
