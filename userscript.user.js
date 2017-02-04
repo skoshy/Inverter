@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.13
+// @version      0.2.14
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -79,6 +79,8 @@ css.messenger.css = `
 /* Custom CSS can go here */
 ._5l-3[id*="id_thread"] /* Group Chat icons */
 {filter: invert(0);}
+._2v6o, ._5eu7 /* Status Indicator underneath name in top bar */
+{ color: rgba(0, 0, 0, .60); font-weight: 600; }
 `;
 css.gmail = {};
 css.gmail.css = `
