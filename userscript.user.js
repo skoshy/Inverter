@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.14
+// @version      0.2.15
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -95,6 +95,10 @@ nav#GH > .b4 /* Header bar, kepp the same color */
 { filter: invert(1); }
 iframe[src*="hangouts.google.com"]
 { filter: invert(1); }
+.cf /* Shipping notification headers */
+{ filter: invert(1); }
+.xW /* Shipping icon */
+{ filter: invert(1) !important; }
 `;
 css.hangouts = {};
 css.hangouts.enableInIframe = true;
