@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.15
+// @version      0.2.16
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -138,12 +138,24 @@ iframe
 {background-color: white; filter: invert(1);}
 
 .is-generic-video {
-	filter: invert(1);
+  filter: invert(1);
 }
 `;
 css.soundcloud = {};
 css.soundcloud.css = `
 span[style]
+`;
+css.pocketcasts = {};
+css.pocketcasts.css = `
+#header {filter: invert(1);}
+#audio_player {filter: invert(1); background-color: black;}
+
+#header img {filter: invert(0);}
+#audio_player img {filter: invert(0);}
+
+#audio_player #audio_player_wrapper .player_top,
+#audio_player #audio_player_wrapper .player_bottom
+{background-color: transparent;}
 `;
 css.none = {};
 css.none.css = ``;
@@ -172,29 +184,29 @@ function parseCSS(parsed) {
 
 document.addEventListener("keydown", function(e) {
   if (e.altKey === true && e.shiftKey === false && e.ctrlKey === true && e.metaKey === false && e.code == 'KeyI') {
-	var timestamp = new Date();
-	timestamp = timestamp.getTime();
-	
-	if (timers.lastToggle > timestamp-options.toggleDelayMs) {
-	  if (isInverterEnabled()) {
-		GM_setValue('enabled_'+document.domain, true);
-		alert('Saved inversion for '+document.domain);
-	  } else {
-		GM_deleteValue('enabled_'+document.domain);
-		alert('Deleted inversion setting for '+document.domain);
-	  }
-	} else {
-	  // toggle style
-	  var cssEl = document.getElementById(scriptId+'-css');
+  var timestamp = new Date();
+  timestamp = timestamp.getTime();
+  
+  if (timers.lastToggle > timestamp-options.toggleDelayMs) {
+    if (isInverterEnabled()) {
+    GM_setValue('enabled_'+document.domain, true);
+    alert('Saved inversion for '+document.domain);
+    } else {
+    GM_deleteValue('enabled_'+document.domain);
+    alert('Deleted inversion setting for '+document.domain);
+    }
+  } else {
+    // toggle style
+    var cssEl = document.getElementById(scriptId+'-css');
 
-	  if (isInverterEnabled()) {
-		cssEl.disabled = true;
-	  } else {
-		cssEl.disabled = false;
-	  }
-	}
-	
-	timers.lastToggle = timestamp;
+    if (isInverterEnabled()) {
+    cssEl.disabled = true;
+    } else {
+    cssEl.disabled = false;
+    }
+  }
+  
+  timers.lastToggle = timestamp;
   }
 });
 
@@ -205,19 +217,20 @@ function isInverterEnabled() {
 
 function getSetCurrentSite() {
     var url = document.documentURI;
-	
-	currentSite = 'none'
+  
+  currentSite = 'none'
 
     if (url.indexOf('messenger.com') != -1) currentSite = 'messenger';
     if (url.indexOf('youtube.com') != -1) currentSite = 'youtube';
     if (url.indexOf('twitter.com') != -1) currentSite = 'twitter';
     if (url.indexOf('inbox.google.com') != -1) currentSite = 'inbox';
-	if (url.indexOf('hangouts.google.com') != -1) currentSite = 'hangouts';
-	if (url.indexOf('mail.google.com') != -1) currentSite = 'gmail';
-	if (url.indexOf('facebook.com') != -1) currentSite = 'facebook';
+  if (url.indexOf('hangouts.google.com') != -1) currentSite = 'hangouts';
+  if (url.indexOf('mail.google.com') != -1) currentSite = 'gmail';
+  if (url.indexOf('facebook.com') != -1) currentSite = 'facebook';
+  if (url.indexOf('play.pocketcasts.com') != -1) currentSite = 'pocketcasts';
 
-	console.log('Detected site for '+scriptId+' script: '+currentSite);
-	
+  console.log('Detected site for '+scriptId+' script: '+currentSite);
+  
     return currentSite;
 }
 
@@ -241,17 +254,17 @@ init();
 */
 
 function isTruthy(item) {
-	return !isFalsy(item);
+  return !isFalsy(item);
 }
 
 function isFalsy(item) {
-	if (
-		!item
-		|| (typeof item == "object" && Object.keys(item).length == 0) // for empty objects, like {}, []
-	)
-		return true;
-	else
-		return false;
+  if (
+    !item
+    || (typeof item == "object" && Object.keys(item).length == 0) // for empty objects, like {}, []
+  )
+    return true;
+  else
+    return false;
 }
 
 function addEvent(obj, evt, fn) {
