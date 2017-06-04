@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.17
+// @version      0.2.18
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -76,6 +76,23 @@ twitterwidget::shadow .Avatar {
 `;
 css.messenger = {};
 css.messenger.includeCommon = false;
+css.messenger.javascriptOnce = function() {
+    var chatColor = '';
+    
+    setInterval(function() {
+        var chatColorEl = document.querySelector('._fl2 [data-testid="info_panel_button"] svg');
+        if (!chatColorEl || chatColorEl.style.stroke == chatColor) return;
+        
+        chatColor = chatColorEl.style.stroke;
+        
+        var newCss = `
+          ._43by
+          { background: `+chatColor.replace('rgb', 'rgba').replace(')', ', .3)')+` !important; }
+        `;
+        
+        addGlobalStyle(newCss, scriptId+'-css', true, scriptId+'-messengerSpecialCss');
+    }, 500);
+};
 css.messenger.css = `
 /* Bug Fixes */
 ._kmc /* message box, min height fix */
@@ -100,7 +117,7 @@ background: black !important;
 { background: rgba(255,255,255,.12) !important; color: white; }
 
 ._43by /* sent message boxes */
-{ background: rgba(0, 132, 255,.45) !important; }
+{ background: rgba(0, 132, 255,.45) !important; transition: background 0.3s ease; }
 
 ._497p /* Timestamps and joining video chat messages in the chat */
 ,._1ht7 /* timestamps in sidebar */
@@ -219,16 +236,26 @@ css.none = {};
 css.none.css = ``;
 
 
-function addGlobalStyle(css, id, enabled) {
+function addGlobalStyle(css, className, enabled, id) {
     var head, style;
     head = document.getElementsByTagName('head')[0];
     if (!head) { return; }
+    
+    // check to see if this element already exists, if it does override it
+    var oldEl = document.getElementById(id);
+    
     style = document.createElement('style');
     style.type = 'text/css';
     style.innerHTML = css;
     style.id = id;
+    style.className = className;
     head.appendChild(style);
     style.disabled = !enabled;
+    
+    // delete old element if it exists
+    if (oldEl) {
+        oldEl.parentNode.removeChild(oldEl);
+    }
 }
 
 function parseCSS(parsed) {
@@ -255,12 +282,16 @@ document.addEventListener("keydown", function(e) {
     }
   } else {
     // toggle style
-    var cssEl = document.getElementById(scriptId+'-css');
+    var cssEls = document.getElementsByClassName(scriptId+'-css');
 
     if (isInverterEnabled()) {
-    cssEl.disabled = true;
+      for (let i = 0; i < cssEls.length; i++) {
+          cssEls[i].disabled = true;
+      }
     } else {
-    cssEl.disabled = false;
+      for (let i = 0; i < cssEls.length; i++) {
+          cssEls[i].disabled = false;
+      }
     }
   }
   
@@ -305,11 +336,13 @@ function init() {
     if (css[currentSite].includeCommon === false) {}
     else { cssToInclude += css.common.css; }
     
+    if (css[currentSite].javascriptOnce) { css[currentSite].javascriptOnce(); }
+    
     cssToInclude += css[currentSite].css;
 
     addGlobalStyle(parseCSS(
         cssToInclude
-    ), scriptId+'-css', styleEnabled);
+    ), scriptId+'-css', styleEnabled, scriptId+'-css');
 }
 
 init();
