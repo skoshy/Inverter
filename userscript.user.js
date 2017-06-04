@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.16
+// @version      0.2.17
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -75,12 +75,70 @@ twitterwidget::shadow .Avatar {
 {filter: invert(1);}
 `;
 css.messenger = {};
+css.messenger.includeCommon = false;
 css.messenger.css = `
-/* Custom CSS can go here */
-._5l-3[id*="id_thread"] /* Group Chat icons */
-{filter: invert(0);}
-._2v6o, ._5eu7 /* Status Indicator underneath name in top bar */
-{ color: rgba(0, 0, 0, .60); font-weight: 600; }
+/* Bug Fixes */
+._kmc /* message box, min height fix */
+{ min-height: 26px !important; }
+
+._4sp8 {
+background: black !important;
+}
+
+._4rv3 /* Message box container */
+,._5743 * /* Top name */
+,._1ht6 /* Names in the sidebar */
+,._1ht3 ._1htf /* Unread message in sidebar */
+,._1tqi ._4qba /* App Name */
+,._5swm * /* Text from link shares */
+,._55r /* video chat notices */
+,._364g /* from searching, contact names */
+,._225b /* from searching, header */
+{ background: transparent !important; color: white !important; }
+
+._29_7 ._hh7 /* receiving message boxes */
+{ background: rgba(255,255,255,.12) !important; color: white; }
+
+._43by /* sent message boxes */
+{ background: rgba(0, 132, 255,.45) !important; }
+
+._497p /* Timestamps and joining video chat messages in the chat */
+,._1ht7 /* timestamps in sidebar */
+,._ih3 /* Names in group chat */
+,._5iwm ._58al::placeholder /* placeholder text for search */
+{ color: rgba(255,255,255,.6) !important; }
+
+.sp_1g5zN81j-1P /* tiny icons, like when a video chat ends */
+,._5iwm ._58ak::before /* search icon */
+,.sp_6SI1R2TSgtb /* more tiny icons */
+{ filter: invert(1); }
+
+a._4ce_ /* games icon */
+,._4rv6 /* stickers icon */
+{ opacity: .7 !important; filter: invert(1) !important; }
+
+._5iwm ._58al /* search box */
+{ background: rgba(255,255,255,.3) !important; color: white !important; }
+
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3) !important;
+	border-radius: 10px !important;
+	background-color: #333 !important;
+}
+
+::-webkit-scrollbar
+{
+	width: 12px !important;
+	background-color: transparent !important;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px !important;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3) !important;
+	background-color: #555 !important;
+}
 `;
 css.gmail = {};
 css.gmail.css = `
@@ -241,9 +299,16 @@ function init() {
   
     console.log('Inversion Enabled for site ('+currentSite+'): '+styleEnabled);
     if (inIframe() && isFalsy(css[currentSite].enableInIframe)) { styleEnabled = false; }
+    
+    var cssToInclude = '';
+    
+    if (css[currentSite].includeCommon === false) {}
+    else { cssToInclude += css.common.css; }
+    
+    cssToInclude += css[currentSite].css;
 
     addGlobalStyle(parseCSS(
-        css.common.css + css[currentSite].css
+        cssToInclude
     ), scriptId+'-css', styleEnabled);
 }
 
