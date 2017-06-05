@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.18
+// @version      0.2.19
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -94,6 +94,9 @@ css.messenger.javascriptOnce = function() {
     }, 500);
 };
 css.messenger.css = `
+body
+{ color: white; }
+
 /* Bug Fixes */
 ._kmc /* message box, min height fix */
 { min-height: 26px !important; }
@@ -109,9 +112,15 @@ background: black !important;
 ,._1tqi ._4qba /* App Name */
 ,._5swm * /* Text from link shares */
 ,._55r /* video chat notices */
-,._364g /* from searching, contact names */
+,._1enh ._364g /* from searching, contact names */
 ,._225b /* from searching, header */
+,._lll * /* Intro message text for first time chatting someone */
+,._3szq /* Info Box text */
+,._58ak input /* Composing new message text box */
 { background: transparent !important; color: white !important; }
+
+._2y8_ * /* Popup boxes text */
+{ color: black; }
 
 ._29_7 ._hh7 /* receiving message boxes */
 { background: rgba(255,255,255,.12) !important; color: white; }
@@ -123,6 +132,10 @@ background: black !important;
 ,._1ht7 /* timestamps in sidebar */
 ,._ih3 /* Names in group chat */
 ,._5iwm ._58al::placeholder /* placeholder text for search */
+,._1lj0 /* Info Box Headers */
+,._3eus, ._5uh /* Info Box Person Description */
+,._2y8z /* Composing new message "To" field" */
+,._58ak input::placeholder /* Composing new message text box, placeholder */
 { color: rgba(255,255,255,.6) !important; }
 
 .sp_1g5zN81j-1P /* tiny icons, like when a video chat ends */
