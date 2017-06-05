@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.22
+// @version      0.2.23
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -90,7 +90,7 @@ css.messenger.javascriptOnce = function() {
           { background: `+chatColor.replace('rgb', 'rgba').replace(')', ', .3)')+` !important; }
         `;
         
-        addGlobalStyle(newCss, scriptId+'-css', true, scriptId+'-messengerSpecialCss');
+        addGlobalStyle(newCss, scriptId+'-css', isInverterEnabled(), scriptId+'-messengerSpecialCss');
     }, 500);
 };
 css.messenger.css = `
@@ -157,22 +157,22 @@ a._4ce_ /* games icon */
 
 ::-webkit-scrollbar-track
 {
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3) !important;
-	border-radius: 10px !important;
-	background-color: #333 !important;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3) !important;
+  border-radius: 10px !important;
+  background-color: #333 !important;
 }
 
 ::-webkit-scrollbar
 {
-	width: 12px !important;
-	background-color: transparent !important;
+  width: 12px !important;
+  background-color: transparent !important;
 }
 
 ::-webkit-scrollbar-thumb
 {
-	border-radius: 10px !important;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3) !important;
-	background-color: #555 !important;
+  border-radius: 10px !important;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3) !important;
+  background-color: #555 !important;
 }
 `;
 css.gmail = {};
