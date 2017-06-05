@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.19
+// @version      0.2.20
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -117,6 +117,10 @@ background: black !important;
 ,._lll * /* Intro message text for first time chatting someone */
 ,._3szq /* Info Box text */
 ,._58ak input /* Composing new message text box */
+,._1jt6 ._3oh- /* Info box contact name */
+,._4rph ._4rpj /* Info box group chat, add people */
+,._364g /* Info box group chat, additional people */
+,._2jnv /* Info box group chat, chat name */
 { background: transparent !important; color: white !important; }
 
 ._2y8_ * /* Popup boxes text */
