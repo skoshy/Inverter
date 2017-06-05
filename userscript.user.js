@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.21
+// @version      0.2.22
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -145,6 +145,7 @@ background: black !important;
 .sp_1g5zN81j-1P /* tiny icons, like when a video chat ends */
 ,._5iwm ._58ak::before /* search icon */
 ,.sp_6SI1R2TSgtb /* more tiny icons */
+,._2t5t /* more icons, like the forward icon */
 { filter: invert(1); }
 
 a._4ce_ /* games icon */
