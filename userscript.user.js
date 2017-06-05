@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.20
+// @version      0.2.21
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -80,10 +80,10 @@ css.messenger.javascriptOnce = function() {
     var chatColor = '';
     
     setInterval(function() {
-        var chatColorEl = document.querySelector('._fl2 [data-testid="info_panel_button"] svg');
-        if (!chatColorEl || chatColorEl.style.stroke == chatColor) return;
+        var chatColorEl = document.querySelector('._fl2 [data-testid="info_panel_button"] svg polygon, ._fl2 [data-testid="info_panel_button"] svg path'); /* Two elements, depends on if the info button is pressed or not */
+        if (!chatColorEl || chatColorEl.style.fill == chatColor) return;
         
-        chatColor = chatColorEl.style.stroke;
+        chatColor = chatColorEl.style.fill;
         
         var newCss = `
           ._43by
