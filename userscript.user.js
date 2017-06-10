@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.23
+// @version      0.2.24
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -95,6 +95,7 @@ css.messenger.javascriptOnce = function() {
 };
 css.messenger.css = `
 body
+,._5i_d * /* Text from YouTube/video share */
 { color: white; }
 
 /* Bug Fixes */
@@ -111,6 +112,7 @@ background: black !important;
 ,._1ht3 ._1htf /* Unread message in sidebar */
 ,._1tqi ._4qba /* App Name */
 ,._5swm * /* Text from link shares */
+,._hh7 a /* Link from received message */
 ,._55r /* video chat notices */
 ,._1enh ._364g /* from searching, contact names */
 ,._225b /* from searching, header */
@@ -119,7 +121,7 @@ background: black !important;
 ,._58ak input /* Composing new message text box */
 ,._1jt6 ._3oh- /* Info box contact name */
 ,._4rph ._4rpj /* Info box group chat, add people */
-,._364g /* Info box group chat, additional people */
+,._4_j5 ._364g /* Info box group chat, additional people */
 ,._2jnv /* Info box group chat, chat name */
 { background: transparent !important; color: white !important; }
 
@@ -140,6 +142,8 @@ background: black !important;
 ,._3eus, ._5uh /* Info Box Person Description */
 ,._2y8z /* Composing new message "To" field" */
 ,._58ak input::placeholder /* Composing new message text box, placeholder */
+,._5i_d .__6m /* Link share URL */
+,._3x6v /* Info box, side text next to notifications if notifications are muted */
 { color: rgba(255,255,255,.6) !important; }
 
 .sp_1g5zN81j-1P /* tiny icons, like when a video chat ends */
