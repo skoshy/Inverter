@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.24
+// @version      0.2.25
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -145,6 +145,10 @@ background: black !important;
 ,._5i_d .__6m /* Link share URL */
 ,._3x6v /* Info box, side text next to notifications if notifications are muted */
 { color: rgba(255,255,255,.6) !important; }
+
+._29_7 ._52mr /* Borders of message bubble stuff, like video chat notifications, links, etc, received */
+,._nd_ ._52mr /* Same as above, but sent */
+{ border-color: rgba(255,255,255,.2); }
 
 .sp_1g5zN81j-1P /* tiny icons, like when a video chat ends */
 ,._5iwm ._58ak::before /* search icon */
