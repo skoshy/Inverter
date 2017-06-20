@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.25
+// @version      0.2.26
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -12,6 +12,26 @@
 // @grant        GM_setValue
 // @grant        GM_deleteValue
 // ==/UserScript==
+
+// From https://gist.github.com/arantius/3123124
+// These are replacement functions for GreaseMonkey scripts, but the only work on a single domain instead of being cross domain
+// Todo: Implement solution that works cross domain
+
+if (typeof GM_getValue == 'undefined') {
+  function GM_getValue(aKey, aDefault) {
+    'use strict';
+    let val = localStorage.getItem(scriptId + aKey)
+    if (null === val && 'undefined' != typeof aDefault) return aDefault;
+    return val;
+  }
+}
+
+if (typeof GM_setValue == 'undefined') {
+  function GM_setValue(aKey, aVal) {
+    'use strict';
+    localStorage.setItem(scriptId + aKey, aVal);
+  }
+}
 
 var currentSite = '';
 var scriptId = 'inverter';
