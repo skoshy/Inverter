@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.28
+// @version      0.2.29
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -20,7 +20,7 @@
 if (typeof GM_getValue == 'undefined') {
 	function GM_getValue(aKey, aDefault) {
 		'use strict';
-		let val = localStorage.getItem(scriptId + aKey)
+		let val = localStorage.getItem(SCRIPT_ID + aKey)
 		if (null === val && 'undefined' != typeof aDefault) return aDefault;
 		return val;
 	}
@@ -29,13 +29,13 @@ if (typeof GM_getValue == 'undefined') {
 if (typeof GM_setValue == 'undefined') {
 	function GM_setValue(aKey, aVal) {
 		'use strict';
-		localStorage.setItem(scriptId + aKey, aVal);
+		localStorage.setItem(SCRIPT_ID + aKey, aVal);
 	}
 }
 
 var DEBUG_MODE = false;
-
-var scriptId = 'inverter';
+var SCRIPT_ID = 'inverter';
+var CURRENT_SITE = getCurrentSite();
 
 var timers = {};
 timers.lastToggle = 0; // default the last toggle to nothing
@@ -111,7 +111,7 @@ css.messenger.javascriptOnce = function() {
 			{ background: `+chatColor.replace('rgb', 'rgba').replace(')', ', .3)')+` !important; }
 		`;
 
-		addGlobalStyle(newCss, scriptId+'-css', isInverterEnabled(), scriptId+'-messengerSpecialCss');
+		addGlobalStyle(newCss, SCRIPT_ID+'-css', isInverterEnabled(), SCRIPT_ID+'-messengerSpecialCss');
 	}, 500);
 };
 css.messenger.css = `
@@ -342,21 +342,20 @@ document.addEventListener("keydown", function(e) {
 });
 
 function getCssStyleElements() {
-	return document.getElementsByClassName(scriptId+'-css');
+	return document.getElementsByClassName(SCRIPT_ID+'-css');
 }
 
 function enableStyle() {
 	var cssToInclude = '';
-	var currentSite = getSetCurrentSite();
 
-	if (css[currentSite].includeCommon === false) {}
+	if (css[CURRENT_SITE].includeCommon === false) {}
 	else { cssToInclude += css.common.css; }
 
-	cssToInclude += css[currentSite].css;
+	cssToInclude += css[CURRENT_SITE].css;
 
 	addGlobalStyle(parseCSS(
 		cssToInclude
-	), scriptId+'-css', true, scriptId+'-css');
+	), SCRIPT_ID+'-css', true, SCRIPT_ID+'-css');
 }
 
 function disableStyle() {
@@ -367,39 +366,37 @@ function disableStyle() {
 }
 
 function isInverterEnabled() {
-	var cssEl = document.getElementById(scriptId+'-css');
+	var cssEl = document.getElementById(SCRIPT_ID+'-css');
 
 	return isTruthy(cssEl);
 }
 
-function getSetCurrentSite() {
+function getCurrentSite() {
 	var url = document.documentURI;
-	var currentSite = 'none';
+	var toReturn = 'none';
 
-	if (url.indexOf('messenger.com') != -1) currentSite = 'messenger';
-	if (url.indexOf('youtube.com') != -1) currentSite = 'youtube';
-	if (url.indexOf('twitter.com') != -1) currentSite = 'twitter';
-	if (url.indexOf('inbox.google.com') != -1) currentSite = 'inbox';
-	if (url.indexOf('hangouts.google.com') != -1) currentSite = 'hangouts';
-	if (url.indexOf('mail.google.com') != -1) currentSite = 'gmail';
-	if (url.indexOf('facebook.com') != -1) currentSite = 'facebook';
-	if (url.indexOf('play.pocketcasts.com') != -1) currentSite = 'pocketcasts';
+	if (url.indexOf('messenger.com') != -1) toReturn = 'messenger';
+	if (url.indexOf('youtube.com') != -1) toReturn = 'youtube';
+	if (url.indexOf('twitter.com') != -1) toReturn = 'twitter';
+	if (url.indexOf('inbox.google.com') != -1) toReturn = 'inbox';
+	if (url.indexOf('hangouts.google.com') != -1) toReturn = 'hangouts';
+	if (url.indexOf('mail.google.com') != -1) toReturn = 'gmail';
+	if (url.indexOf('facebook.com') != -1) toReturn = 'facebook';
+	if (url.indexOf('play.pocketcasts.com') != -1) toReturn = 'pocketcasts';
 
-	return currentSite;
+	return toReturn;
 }
 
 function init() {
-	var currentSite = getSetCurrentSite();
-
 	var styleEnabled = GM_getValue( 'enabled_'+document.domain , false );
 
 	if (DEBUG_MODE) {
-		console.log('Inversion Enabled for site ('+currentSite+'): '+styleEnabled);
+		console.log('Inversion Enabled for site ('+CURRENT_SITE+'): '+styleEnabled);
 	}
 
-	if (inIframe() && isFalsy(css[currentSite].enableInIframe)) { styleEnabled = false; }
+	if (inIframe() && isFalsy(css[CURRENT_SITE].enableInIframe)) { styleEnabled = false; }
 
-	if (css[currentSite].javascriptOnce) { css[currentSite].javascriptOnce(); }
+	if (css[CURRENT_SITE].javascriptOnce) { css[CURRENT_SITE].javascriptOnce(); }
 
 	if (styleEnabled) {
 		enableStyle();
