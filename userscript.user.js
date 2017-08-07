@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.26
+// @version      0.2.27
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -328,16 +328,11 @@ document.addEventListener("keydown", function(e) {
     }
   } else {
     // toggle style
-    var cssEls = document.getElementsByClassName(scriptId+'-css');
 
     if (isInverterEnabled()) {
-      for (let i = 0; i < cssEls.length; i++) {
-          cssEls[i].disabled = true;
-      }
+      disableStyle();
     } else {
-      for (let i = 0; i < cssEls.length; i++) {
-          cssEls[i].disabled = false;
-      }
+      enableStyle();
     }
   }
   
@@ -345,9 +340,34 @@ document.addEventListener("keydown", function(e) {
   }
 });
 
+function getCssStyleElements() {
+  return document.getElementsByClassName(scriptId+'-css');
+}
+
+function enableStyle() {
+  var cssToInclude = '';
+
+  if (css[currentSite].includeCommon === false) {}
+  else { cssToInclude += css.common.css; }
+
+  cssToInclude += css[currentSite].css;
+
+  addGlobalStyle(parseCSS(
+    cssToInclude
+  ), scriptId+'-css', true, scriptId+'-css');
+}
+
+function disableStyle() {
+  var cssEls = getCssStyleElements();
+  for (let i = 0; i < cssEls.length; i++) {
+    cssEls[i].parentNode.removeChild(cssEls[i]); // remove
+  }
+}
+
 function isInverterEnabled() {
   var cssEl = document.getElementById(scriptId+'-css');
-  return cssEl.disabled === false;
+  
+  return isTruthy(cssEl);
 }
 
 function getSetCurrentSite() {
@@ -363,8 +383,6 @@ function getSetCurrentSite() {
   if (url.indexOf('mail.google.com') != -1) currentSite = 'gmail';
   if (url.indexOf('facebook.com') != -1) currentSite = 'facebook';
   if (url.indexOf('play.pocketcasts.com') != -1) currentSite = 'pocketcasts';
-
-  console.log('Detected site for '+scriptId+' script: '+currentSite);
   
     return currentSite;
 }
@@ -377,18 +395,11 @@ function init() {
     console.log('Inversion Enabled for site ('+currentSite+'): '+styleEnabled);
     if (inIframe() && isFalsy(css[currentSite].enableInIframe)) { styleEnabled = false; }
     
-    var cssToInclude = '';
-    
-    if (css[currentSite].includeCommon === false) {}
-    else { cssToInclude += css.common.css; }
-    
     if (css[currentSite].javascriptOnce) { css[currentSite].javascriptOnce(); }
-    
-    cssToInclude += css[currentSite].css;
 
-    addGlobalStyle(parseCSS(
-        cssToInclude
-    ), scriptId+'-css', styleEnabled, scriptId+'-css');
+    if (styleEnabled) {
+      enableStyle();
+    }
 }
 
 init();
@@ -401,10 +412,14 @@ function isTruthy(item) {
   return !isFalsy(item);
 }
 
+// from https://gist.github.com/skoshy/69a7951b3070c2e2496d8257e16d7981
 function isFalsy(item) {
   if (
     !item
-    || (typeof item == "object" && Object.keys(item).length == 0) // for empty objects, like {}, []
+    || (typeof item == "object" && (
+      Object.keys(item).length == 0 // for empty objects, like {}, []
+      && !(typeof item.addEventListener == "function") // omit webpage elements
+    ))
   )
     return true;
   else
