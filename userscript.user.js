@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.27
+// @version      0.2.28
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -18,22 +18,23 @@
 // Todo: Implement solution that works cross domain
 
 if (typeof GM_getValue == 'undefined') {
-  function GM_getValue(aKey, aDefault) {
-    'use strict';
-    let val = localStorage.getItem(scriptId + aKey)
-    if (null === val && 'undefined' != typeof aDefault) return aDefault;
-    return val;
-  }
+	function GM_getValue(aKey, aDefault) {
+		'use strict';
+		let val = localStorage.getItem(scriptId + aKey)
+		if (null === val && 'undefined' != typeof aDefault) return aDefault;
+		return val;
+	}
 }
 
 if (typeof GM_setValue == 'undefined') {
-  function GM_setValue(aKey, aVal) {
-    'use strict';
-    localStorage.setItem(scriptId + aKey, aVal);
-  }
+	function GM_setValue(aKey, aVal) {
+		'use strict';
+		localStorage.setItem(scriptId + aKey, aVal);
+	}
 }
 
-var currentSite = '';
+var DEBUG_MODE = false;
+
 var scriptId = 'inverter';
 
 var timers = {};
@@ -49,17 +50,17 @@ css.overrides = {};
 css.common = {};
 css.common.css = `
 html {
-  filter: invert(1);
-  min-height: 100%;
-  background-color: black;
+	filter: invert(1);
+	min-height: 100%;
+	background-color: black;
 }
 
 img, figure, video, picture {
-  filter: invert(1);
+	filter: invert(1);
 }
 
 figure img { /* no need to invert imgs in figures */
-  filter: invert(0);
+	filter: invert(0);
 }
 
 *[style*="url(/"],
@@ -76,19 +77,19 @@ figure img { /* no need to invert imgs in figures */
 { filter: invert(1); }
 
 body, body > div {
-  background-color: white;
+	background-color: white;
 }
 
 iframe[src*="youtube.com"], iframe[src*="vimeo.com"] {
-  filter: invert(1);
+	filter: invert(1);
 }
 
 twitterwidget::shadow .MediaCard-media {
-  filter: invert(1);
+	filter: invert(1);
 }
 
 twitterwidget::shadow .Avatar {
-  filter: invert(1);
+	filter: invert(1);
 }
 
 .gbii /* This is for multiple Google Domains to reinvert the profile icon in the top right */
@@ -97,21 +98,21 @@ twitterwidget::shadow .Avatar {
 css.messenger = {};
 css.messenger.includeCommon = false;
 css.messenger.javascriptOnce = function() {
-    var chatColor = '';
-    
-    setInterval(function() {
-        var chatColorEl = document.querySelector('._fl2 [data-testid="info_panel_button"] svg polygon, ._fl2 [data-testid="info_panel_button"] svg path'); /* Two elements, depends on if the info button is pressed or not */
-        if (!chatColorEl || chatColorEl.style.fill == chatColor) return;
-        
-        chatColor = chatColorEl.style.fill;
-        
-        var newCss = `
-          ._43by
-          { background: `+chatColor.replace('rgb', 'rgba').replace(')', ', .3)')+` !important; }
-        `;
-        
-        addGlobalStyle(newCss, scriptId+'-css', isInverterEnabled(), scriptId+'-messengerSpecialCss');
-    }, 500);
+	var chatColor = '';
+
+	setInterval(function() {
+		var chatColorEl = document.querySelector('._fl2 [data-testid="info_panel_button"] svg polygon, ._fl2 [data-testid="info_panel_button"] svg path'); /* Two elements, depends on if the info button is pressed or not */
+		if (!chatColorEl || chatColorEl.style.fill == chatColor) return;
+
+		chatColor = chatColorEl.style.fill;
+
+		var newCss = `
+			._43by
+			{ background: `+chatColor.replace('rgb', 'rgba').replace(')', ', .3)')+` !important; }
+		`;
+
+		addGlobalStyle(newCss, scriptId+'-css', isInverterEnabled(), scriptId+'-messengerSpecialCss');
+	}, 500);
 };
 css.messenger.css = `
 body
@@ -185,22 +186,22 @@ a._4ce_ /* games icon */
 
 ::-webkit-scrollbar-track
 {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3) !important;
-  border-radius: 10px !important;
-  background-color: #333 !important;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3) !important;
+	border-radius: 10px !important;
+	background-color: #333 !important;
 }
 
 ::-webkit-scrollbar
 {
-  width: 12px !important;
-  background-color: transparent !important;
+	width: 12px !important;
+	background-color: transparent !important;
 }
 
 ::-webkit-scrollbar-thumb
 {
-  border-radius: 10px !important;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3) !important;
-  background-color: #555 !important;
+	border-radius: 10px !important;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3) !important;
+	background-color: #555 !important;
 }
 `;
 css.gmail = {};
@@ -259,7 +260,7 @@ iframe
 {background-color: white; filter: invert(1);}
 
 .is-generic-video {
-  filter: invert(1);
+	filter: invert(1);
 }
 `;
 css.soundcloud = {};
@@ -283,123 +284,126 @@ css.none.css = ``;
 
 
 function addGlobalStyle(css, className, enabled, id) {
-    var head, style;
-    head = document.getElementsByTagName('head')[0];
-    if (!head) { return; }
-    
-    // check to see if this element already exists, if it does override it
-    var oldEl = document.getElementById(id);
-    
-    style = document.createElement('style');
-    style.type = 'text/css';
-    style.innerHTML = css;
-    style.id = id;
-    style.className = className;
-    head.appendChild(style);
-    style.disabled = !enabled;
-    
-    // delete old element if it exists
-    if (oldEl) {
-        oldEl.parentNode.removeChild(oldEl);
-    }
+	var head, style;
+	head = document.getElementsByTagName('head')[0];
+	if (!head) { return; }
+
+	// check to see if this element already exists, if it does override it
+	var oldEl = document.getElementById(id);
+
+	style = document.createElement('style');
+	style.type = 'text/css';
+	style.innerHTML = css;
+	style.id = id;
+	style.className = className;
+	head.appendChild(style);
+	style.disabled = !enabled;
+
+	// delete old element if it exists
+	if (oldEl) {
+		oldEl.parentNode.removeChild(oldEl);
+	}
 }
 
 function parseCSS(parsed) {
-    for (attribute in css.defaults) {
-        exceptionToReplace = new RegExp('{{'+attribute+'}}', 'g');
-        parsed = parsed.replace(exceptionToReplace, css['defaults'][attribute]);
-    }
+	for (attribute in css.defaults) {
+		exceptionToReplace = new RegExp('{{'+attribute+'}}', 'g');
+		parsed = parsed.replace(exceptionToReplace, css['defaults'][attribute]);
+	}
 
-    return parsed;
+	return parsed;
 }
 
 document.addEventListener("keydown", function(e) {
-  if (e.altKey === true && e.shiftKey === false && e.ctrlKey === true && e.metaKey === false && e.code == 'KeyI') {
-  var timestamp = new Date();
-  timestamp = timestamp.getTime();
-  
-  if (timers.lastToggle > timestamp-options.toggleDelayMs) {
-    if (isInverterEnabled()) {
-    GM_setValue('enabled_'+document.domain, true);
-    alert('Saved inversion for '+document.domain);
-    } else {
-    GM_deleteValue('enabled_'+document.domain);
-    alert('Deleted inversion setting for '+document.domain);
-    }
-  } else {
-    // toggle style
+	if (e.altKey === true && e.shiftKey === false && e.ctrlKey === true && e.metaKey === false && e.code == 'KeyI') {
+		var timestamp = new Date();
+		timestamp = timestamp.getTime();
 
-    if (isInverterEnabled()) {
-      disableStyle();
-    } else {
-      enableStyle();
-    }
-  }
-  
-  timers.lastToggle = timestamp;
-  }
+		if (timers.lastToggle > timestamp-options.toggleDelayMs) {
+			if (isInverterEnabled()) {
+			GM_setValue('enabled_'+document.domain, true);
+			alert('Saved inversion for '+document.domain);
+			} else {
+			GM_deleteValue('enabled_'+document.domain);
+			alert('Deleted inversion setting for '+document.domain);
+			}
+		} else {
+			// toggle style
+
+			if (isInverterEnabled()) {
+				disableStyle();
+			} else {
+				enableStyle();
+			}
+		}
+
+		timers.lastToggle = timestamp;
+	}
 });
 
 function getCssStyleElements() {
-  return document.getElementsByClassName(scriptId+'-css');
+	return document.getElementsByClassName(scriptId+'-css');
 }
 
 function enableStyle() {
-  var cssToInclude = '';
+	var cssToInclude = '';
+	var currentSite = getSetCurrentSite();
 
-  if (css[currentSite].includeCommon === false) {}
-  else { cssToInclude += css.common.css; }
+	if (css[currentSite].includeCommon === false) {}
+	else { cssToInclude += css.common.css; }
 
-  cssToInclude += css[currentSite].css;
+	cssToInclude += css[currentSite].css;
 
-  addGlobalStyle(parseCSS(
-    cssToInclude
-  ), scriptId+'-css', true, scriptId+'-css');
+	addGlobalStyle(parseCSS(
+		cssToInclude
+	), scriptId+'-css', true, scriptId+'-css');
 }
 
 function disableStyle() {
-  var cssEls = getCssStyleElements();
-  for (let i = 0; i < cssEls.length; i++) {
-    cssEls[i].parentNode.removeChild(cssEls[i]); // remove
-  }
+	var cssEls = getCssStyleElements();
+	for (let i = 0; i < cssEls.length; i++) {
+		cssEls[i].parentNode.removeChild(cssEls[i]); // remove the element
+	}
 }
 
 function isInverterEnabled() {
-  var cssEl = document.getElementById(scriptId+'-css');
-  
-  return isTruthy(cssEl);
+	var cssEl = document.getElementById(scriptId+'-css');
+
+	return isTruthy(cssEl);
 }
 
 function getSetCurrentSite() {
-    var url = document.documentURI;
-  
-  currentSite = 'none'
+	var url = document.documentURI;
+	var currentSite = 'none';
 
-    if (url.indexOf('messenger.com') != -1) currentSite = 'messenger';
-    if (url.indexOf('youtube.com') != -1) currentSite = 'youtube';
-    if (url.indexOf('twitter.com') != -1) currentSite = 'twitter';
-    if (url.indexOf('inbox.google.com') != -1) currentSite = 'inbox';
-  if (url.indexOf('hangouts.google.com') != -1) currentSite = 'hangouts';
-  if (url.indexOf('mail.google.com') != -1) currentSite = 'gmail';
-  if (url.indexOf('facebook.com') != -1) currentSite = 'facebook';
-  if (url.indexOf('play.pocketcasts.com') != -1) currentSite = 'pocketcasts';
-  
-    return currentSite;
+	if (url.indexOf('messenger.com') != -1) currentSite = 'messenger';
+	if (url.indexOf('youtube.com') != -1) currentSite = 'youtube';
+	if (url.indexOf('twitter.com') != -1) currentSite = 'twitter';
+	if (url.indexOf('inbox.google.com') != -1) currentSite = 'inbox';
+	if (url.indexOf('hangouts.google.com') != -1) currentSite = 'hangouts';
+	if (url.indexOf('mail.google.com') != -1) currentSite = 'gmail';
+	if (url.indexOf('facebook.com') != -1) currentSite = 'facebook';
+	if (url.indexOf('play.pocketcasts.com') != -1) currentSite = 'pocketcasts';
+
+	return currentSite;
 }
 
 function init() {
-    getSetCurrentSite();
+	var currentSite = getSetCurrentSite();
 
-    var styleEnabled = GM_getValue( 'enabled_'+document.domain , false );
-  
-    console.log('Inversion Enabled for site ('+currentSite+'): '+styleEnabled);
-    if (inIframe() && isFalsy(css[currentSite].enableInIframe)) { styleEnabled = false; }
-    
-    if (css[currentSite].javascriptOnce) { css[currentSite].javascriptOnce(); }
+	var styleEnabled = GM_getValue( 'enabled_'+document.domain , false );
 
-    if (styleEnabled) {
-      enableStyle();
-    }
+	if (DEBUG_MODE) {
+		console.log('Inversion Enabled for site ('+currentSite+'): '+styleEnabled);
+	}
+
+	if (inIframe() && isFalsy(css[currentSite].enableInIframe)) { styleEnabled = false; }
+
+	if (css[currentSite].javascriptOnce) { css[currentSite].javascriptOnce(); }
+
+	if (styleEnabled) {
+		enableStyle();
+	}
 }
 
 init();
@@ -409,36 +413,36 @@ init();
 */
 
 function isTruthy(item) {
-  return !isFalsy(item);
+	return !isFalsy(item);
 }
 
 // from https://gist.github.com/skoshy/69a7951b3070c2e2496d8257e16d7981
 function isFalsy(item) {
-  if (
-    !item
-    || (typeof item == "object" && (
-      Object.keys(item).length == 0 // for empty objects, like {}, []
-      && !(typeof item.addEventListener == "function") // omit webpage elements
-    ))
-  )
-    return true;
-  else
-    return false;
+	if (
+		!item
+		|| (typeof item == "object" && (
+			Object.keys(item).length == 0 // for empty objects, like {}, []
+			&& !(typeof item.addEventListener == "function") // omit webpage elements
+		))
+	)
+		return true;
+	else
+		return false;
 }
 
 function addEvent(obj, evt, fn) {
-    if (obj.addEventListener) {
-        obj.addEventListener(evt, fn, false);
-    }
-    else if (obj.attachEvent) {
-        obj.attachEvent("on" + evt, fn);
-    }
+	if (obj.addEventListener) {
+		obj.addEventListener(evt, fn, false);
+	}
+	else if (obj.attachEvent) {
+		obj.attachEvent("on" + evt, fn);
+	}
 }
 
 function inIframe () {
-    try {
-        return window.self !== window.top;
-    } catch (e) {
-        return true;
-    }
+	try {
+		return window.self !== window.top;
+	} catch (e) {
+		return true;
+	}
 }
