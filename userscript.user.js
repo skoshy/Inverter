@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.29
+// @version      0.2.30
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -12,6 +12,10 @@
 // @grant        GM_setValue
 // @grant        GM_deleteValue
 // ==/UserScript==
+
+var DEBUG_MODE = false;
+var SCRIPT_ID = 'inverter';
+var CURRENT_SITE = getCurrentSite();
 
 // From https://gist.github.com/arantius/3123124
 // These are replacement functions for GreaseMonkey scripts, but the only work on a single domain instead of being cross domain
@@ -32,10 +36,6 @@ if (typeof GM_setValue == 'undefined') {
 		localStorage.setItem(SCRIPT_ID + aKey, aVal);
 	}
 }
-
-var DEBUG_MODE = false;
-var SCRIPT_ID = 'inverter';
-var CURRENT_SITE = getCurrentSite();
 
 var timers = {};
 timers.lastToggle = 0; // default the last toggle to nothing
