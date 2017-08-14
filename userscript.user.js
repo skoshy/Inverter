@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.30
+// @version      0.2.31
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -145,6 +145,12 @@ background: black !important;
 ,._4_j5 ._364g /* Info box group chat, additional people */
 ,._2jnv /* Info box group chat, chat name */
 { background: transparent !important; color: white !important; }
+
+._1ht3._1ht1 /* unread message in sidebar */
+{ background-color: rgba(0, 132, 255, .5) !important; }
+
+._1ht1._1ht2 /* current message in the sidebar */
+{ background-color: rgba(255, 255, 255, .15) !important; }
 
 ._2y8_ * /* Popup boxes text */
 { color: black; }
