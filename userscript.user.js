@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.34
+// @version      0.2.35
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -300,7 +300,7 @@ body .end_div_msg_lim,
 body #footer,
 body #msg_input,
 #msgs_overlay_div,
-body .file_container,
+body .file_container:not(.snippet_container),
 #messages_container.has_top_messages_banner:before, /* The background of the X New Message since blah thing in the message window */
 
 /* Flexible column, aka threaded messages */
