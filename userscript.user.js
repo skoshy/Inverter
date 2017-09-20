@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.35
+// @version      0.2.36
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -333,6 +333,9 @@ body .ql-container.texty_single_line_input .ql-editor, /* Search input */
 .fs_modal_file_viewer_content .viewer
   { background: rgb(27, 27, 27) !important; color: white !important; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: rgba(101, 101, 101, 0.1); }
 
+#msgs_div .unread_divider.no_unreads .divider_label /* New Message line indicator text */
+  { background: rgb(27, 27, 27) !important; }
+
 body .channel_title .channel_name,
 body #archives_end_div_msg_lim h1,
 body #end_display_msg_lim h1,
@@ -359,6 +362,7 @@ ts-message.selected:not(.delete_mode),
 #file_preview_scroller .convo_flexpane_divider,
 #flex_contents .heading,
 .flex_pane_showing #col_flex,
+.day_container .day_msgs,
 .c-channel_insights__message ts-message.standalone:not(.for_mention_display):not(.for_search_display):not(.for_top_results_search_display):not(.for_star_display)
   { border-color: rgb(40, 40, 40) !important; }
 
