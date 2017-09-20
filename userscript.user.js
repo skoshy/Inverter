@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.32
+// @version      0.2.33
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -288,6 +288,9 @@ css.pocketcasts.css = `
 css.slack = {};
 css.slack.includeCommon = false;
 css.slack.css = `
+body #loading_welcome,
+.loading #loading-zone,
+#loading_message p,
 body #client_body,
 body .end_div_msg_lim,
 #client_body h1,
@@ -318,7 +321,7 @@ body .reply_input_container .ql-container,
 
 /* Image viewer */
 .fs_modal_file_viewer_content .viewer
-{ background: rgb(27, 27, 27) !important; color: white !important; }
+  { background: rgb(27, 27, 27) !important; color: white !important; }
 
 body .channel_title .channel_name,
 body #archives_end_div_msg_lim h1,
@@ -327,7 +330,7 @@ body ts-message,
 body #client_body ts-message .message_content .message_sender,
 body ts-thread .thread_header .thread_channel_name a,
 .c-member__display-name, .c-team__display-name, .c-usergroup__handle
-{ color: white !important; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: rgba(101, 101, 101, 0.1); }
+  { color: white !important; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: rgba(101, 101, 101, 0.1); }
 
 /* Hover Message */
 ts-message.active:not(.standalone):not(.multi_delete_mode):not(.highlight):not(.new_reply),
@@ -340,27 +343,31 @@ body .ql-container.texty_single_line_input .ql-editor, /* Search input */
 .day_divider .day_divider_label, /* Day divider */
 #client_body:not(.onboarding):before, /* Top day divider */
 #msg_input+#primary_file_button:not(:hover):not(.active),
-ts-message.selected:not(.delete_mode)
-{ background: rgb(40, 40, 40) !important; color: white;  }
+ts-message.selected:not(.delete_mode),
+.msg_inline_attachment_column.column_border
+  { background: rgb(40, 40, 40) !important; color: white;  }
 
 /* Hover - Border */
 #client_body:not(.onboarding):before /* Top day divider */
-{ border-color: rgb(40, 40, 40) !important; }
+  { border-color: rgb(40, 40, 40) !important; }
 
 /* Placeholder text */
 body .ql-placeholder
-{ color: rgb(200,200,200); }
+  { color: rgb(200,200,200); }
 
 /* Override black text */
 .feature_name_tagging_client ts-message .mention /* channel mention */
-{ color: black; }
+  { color: black; }
 
 /* Remove the white border between channel switcher and messages */
 body #col_messages,
 #client_body:not(.onboarding):before,
 .channel_header,
-#footer
-{ box-shadow: none !important; }
+#footer,
+body ts-message.active:not(.standalone):not(.multi_delete_mode):not(.highlight):not(.new_reply),
+body ts-message.message--focus:not(.standalone):not(.multi_delete_mode):not(.highlight):not(.new_reply),
+body ts-message:hover:not(.standalone):not(.multi_delete_mode):not(.highlight):not(.new_reply)
+  { box-shadow: none !important; }
 `;
 css.none = {};
 css.none.css = ``;
