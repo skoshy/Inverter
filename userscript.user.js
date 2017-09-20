@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.31
+// @version      0.2.32
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -285,6 +285,83 @@ css.pocketcasts.css = `
 #audio_player #audio_player_wrapper .player_bottom
 {background-color: transparent;}
 `;
+css.slack = {};
+css.slack.includeCommon = false;
+css.slack.css = `
+body #client_body,
+body .end_div_msg_lim,
+#client_body h1,
+#client_body h2,
+#client_body h3,
+#client_body h4,
+body #footer,
+body #msg_input,
+#msgs_overlay_div,
+body .file_container,
+#messages_container.has_top_messages_banner:before, /* The background of the X New Message since blah thing in the message window */
+
+/* Flexible column, aka threaded messages */
+body #col_flex,
+#flex_contents .heading,
+
+/* About channel column */
+body #details_tab .channel_page_section,
+body #details_tab .channel_page_section div,
+body #details_tab .channel_page_section a,
+#details_tab .channel_page_section .section_title,
+
+/* All threads view */
+#threads_msgs_scroller_div,
+body ts-thread,
+body ts-thread .thread_messages,
+body .reply_input_container .ql-container,
+
+/* Image viewer */
+.fs_modal_file_viewer_content .viewer
+{ background: rgb(27, 27, 27) !important; color: white !important; }
+
+body .channel_title .channel_name,
+body #archives_end_div_msg_lim h1,
+body #end_display_msg_lim h1,
+body ts-message,
+body #client_body ts-message .message_content .message_sender,
+body ts-thread .thread_header .thread_channel_name a,
+.c-member__display-name, .c-team__display-name, .c-usergroup__handle
+{ color: white !important; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: rgba(101, 101, 101, 0.1); }
+
+/* Hover Message */
+ts-message.active:not(.standalone):not(.multi_delete_mode):not(.highlight):not(.new_reply),
+ts-message.message--focus:not(.standalone):not(.multi_delete_mode):not(.highlight):not(.new_reply),
+ts-message:hover:not(.standalone):not(.multi_delete_mode):not(.highlight):not(.new_reply),
+body #client_header,
+body .channel_header,
+body .ql-container.texty_single_line_input .ql-editor, /* Search input */
+.feature_name_tagging_client #edit_topic_inner:before, /* Topic box */
+.day_divider .day_divider_label, /* Day divider */
+#client_body:not(.onboarding):before, /* Top day divider */
+#msg_input+#primary_file_button:not(:hover):not(.active),
+ts-message.selected:not(.delete_mode)
+{ background: rgb(40, 40, 40) !important; color: white;  }
+
+/* Hover - Border */
+#client_body:not(.onboarding):before /* Top day divider */
+{ border-color: rgb(40, 40, 40) !important; }
+
+/* Placeholder text */
+body .ql-placeholder
+{ color: rgb(200,200,200); }
+
+/* Override black text */
+.feature_name_tagging_client ts-message .mention /* channel mention */
+{ color: black; }
+
+/* Remove the white border between channel switcher and messages */
+body #col_messages,
+#client_body:not(.onboarding):before,
+.channel_header,
+#footer
+{ box-shadow: none !important; }
+`;
 css.none = {};
 css.none.css = ``;
 
@@ -389,6 +466,7 @@ function getCurrentSite() {
 	if (url.indexOf('mail.google.com') != -1) toReturn = 'gmail';
 	if (url.indexOf('facebook.com') != -1) toReturn = 'facebook';
 	if (url.indexOf('play.pocketcasts.com') != -1) toReturn = 'pocketcasts';
+	if (url.indexOf('slack.com/messages') != -1 || url.indexOf('slack.com/threads') != -1) toReturn = 'slack';
 
 	return toReturn;
 }
