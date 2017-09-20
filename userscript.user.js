@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.33
+// @version      0.2.34
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -310,18 +310,28 @@ body #col_flex,
 /* About channel column */
 body #details_tab .channel_page_section,
 body #details_tab .channel_page_section div,
-body #details_tab .channel_page_section a,
 #details_tab .channel_page_section .section_title,
+.c-channel_insights__message ts-message.standalone:not(.for_mention_display):not(.for_search_display):not(.for_top_results_search_display):not(.for_star_display),
+.c-channel_insights__date_heading span,
 
 /* All threads view */
 #threads_msgs_scroller_div,
 body ts-thread,
 body ts-thread .thread_messages,
+#convo_container .convo_flexpane_divider .reply_count, #file_preview_scroller .convo_flexpane_divider .reply_count,
 body .reply_input_container .ql-container,
+
+/* Top Header */
+body #client_header,
+body .channel_header,
+body .ql-container.texty_single_line_input .ql-editor, /* Search input */
+.feature_name_tagging_client #edit_topic_inner:before, /* Topic box */
+.day_divider .day_divider_label, /* Day divider */
+#client_body:not(.onboarding):before, /* Top day divider */
 
 /* Image viewer */
 .fs_modal_file_viewer_content .viewer
-  { background: rgb(27, 27, 27) !important; color: white !important; }
+  { background: rgb(27, 27, 27) !important; color: white !important; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: rgba(101, 101, 101, 0.1); }
 
 body .channel_title .channel_name,
 body #archives_end_div_msg_lim h1,
@@ -329,26 +339,27 @@ body #end_display_msg_lim h1,
 body ts-message,
 body #client_body ts-message .message_content .message_sender,
 body ts-thread .thread_header .thread_channel_name a,
-.c-member__display-name, .c-team__display-name, .c-usergroup__handle
+.c-member__display-name, .c-team__display-name, .c-usergroup__handle,
+#details_tab .feature_sli_channel_insights .channel_created_section .creator_link, #details_tab .feature_sli_channel_insights .channel_purpose_section .channel_purpose_text
   { color: white !important; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: rgba(101, 101, 101, 0.1); }
 
 /* Hover Message */
 ts-message.active:not(.standalone):not(.multi_delete_mode):not(.highlight):not(.new_reply),
 ts-message.message--focus:not(.standalone):not(.multi_delete_mode):not(.highlight):not(.new_reply),
 ts-message:hover:not(.standalone):not(.multi_delete_mode):not(.highlight):not(.new_reply),
-body #client_header,
-body .channel_header,
-body .ql-container.texty_single_line_input .ql-editor, /* Search input */
-.feature_name_tagging_client #edit_topic_inner:before, /* Topic box */
-.day_divider .day_divider_label, /* Day divider */
-#client_body:not(.onboarding):before, /* Top day divider */
 #msg_input+#primary_file_button:not(:hover):not(.active),
+ts-message .reply_bar:hover, /* Hovering over the reply bar in a message */
 ts-message.selected:not(.delete_mode),
 .msg_inline_attachment_column.column_border
   { background: rgb(40, 40, 40) !important; color: white;  }
 
 /* Hover - Border */
-#client_body:not(.onboarding):before /* Top day divider */
+#client_body:not(.onboarding):before, /* Top day divider */
+#convo_container .convo_flexpane_divider,
+#file_preview_scroller .convo_flexpane_divider,
+#flex_contents .heading,
+.flex_pane_showing #col_flex,
+.c-channel_insights__message ts-message.standalone:not(.for_mention_display):not(.for_search_display):not(.for_top_results_search_display):not(.for_star_display)
   { border-color: rgb(40, 40, 40) !important; }
 
 /* Placeholder text */
@@ -368,6 +379,20 @@ body ts-message.active:not(.standalone):not(.multi_delete_mode):not(.highlight):
 body ts-message.message--focus:not(.standalone):not(.multi_delete_mode):not(.highlight):not(.new_reply),
 body ts-message:hover:not(.standalone):not(.multi_delete_mode):not(.highlight):not(.new_reply)
   { box-shadow: none !important; }
+
+/* Links */
+ts-message .message_body a,
+ts-message .message_body a:link,
+ts-message .message_body a:visited,
+ts-message .message_body .file_preview_link
+  { color: #66baec !important; }
+
+/* Links - Hover */
+ts-message .message_body a:hover,
+ts-message .message_body a:link:hover,
+ts-message .message_body a:visited:hover,
+ts-message .message_body .file_preview_link:hover
+  { color: #569eca !important; }
 `;
 css.none = {};
 css.none.css = ``;
