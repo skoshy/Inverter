@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.37
+// @version      0.2.38
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -409,6 +409,22 @@ ts-message .message_body a:visited:hover,
 ts-message .message_body .file_preview_link:hover
   { color: #569eca !important; }
 `;
+css.zohonotebook = {};
+css.zohonotebook.css = `
+#wholeContainer,
+.versionsContainer
+{ background: rgb(27, 27, 27) !important; color: white !important; }
+
+.noteCardDiv:before
+{ border-color: rgb(27, 27, 27) !important; }
+
+.navBarIcon
+{ filter: invert(1); }
+
+#createWrapper
+{ background: transparent !important; }
+`;
+css.zohonotebook.includeCommon = false;
 css.none = {};
 css.none.css = ``;
 
@@ -513,6 +529,7 @@ function getCurrentSite() {
 	if (url.indexOf('mail.google.com') != -1) toReturn = 'gmail';
 	if (url.indexOf('facebook.com') != -1) toReturn = 'facebook';
 	if (url.indexOf('play.pocketcasts.com') != -1) toReturn = 'pocketcasts';
+	if (url.indexOf('notebook.zoho.com') != -1) toReturn = 'zohonotebook';
 	if (url.indexOf('slack.com/messages') != -1 || url.indexOf('slack.com/threads') != -1) toReturn = 'slack';
 
 	return toReturn;
