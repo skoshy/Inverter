@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.38
+// @version      0.2.39
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -333,6 +333,9 @@ body .ql-container.texty_single_line_input .ql-editor, /* Search input */
 #fs_modal.active,
 .plastic_select, input[type=url], input[type=text], input[type=tel], input[type=number], input[type=email], input[type=password], select, textarea,
 
+/* Unreads Tab */
+body .unread_msgs_loading,
+
 /* Image viewer */
 .fs_modal_file_viewer_content .viewer
   { background: rgb(27, 27, 27) !important; color: white !important; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: rgba(101, 101, 101, 0.1); }
@@ -348,11 +351,18 @@ body #client_body ts-message .message_content .message_sender,
 body ts-thread .thread_header .thread_channel_name a,
 .c-member__display-name, .c-team__display-name, .c-usergroup__handle,
 
+/* Unread Tab */
+body .unread_empty_state,
+
+/* Convo Tab */
+body #convo_tab .message_input, body #convo_tab textarea#msg_text,
+
 /* New Direct Message Modal */
 #fs_modal h1, #fs_modal h2, #fs_modal h3, #fs_modal h4, #fs_modal h5,
 .c-member__secondary-name--medium,
 #im_browser .im_browser_row.multiparty,
-
+body .flexpane_file_title .member, body .flexpane_file_title .service_link, .flexpane_file_title .title a, /* files pane */
+body .comment .member, .comment_body, /* file comments */
 #details_tab .feature_sli_channel_insights .channel_created_section .creator_link, #details_tab .feature_sli_channel_insights .channel_purpose_section .channel_purpose_text
   { color: white !important; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: rgba(101, 101, 101, 0.1); }
 
@@ -363,9 +373,14 @@ ts-message:hover:not(.standalone):not(.multi_delete_mode):not(.highlight):not(.n
 #msg_input+#primary_file_button:not(:hover):not(.active),
 ts-message .reply_bar:hover, /* Hovering over the reply bar in a message */
 ts-message.selected:not(.delete_mode),
-#im_browser #im_list_container:not(.keyboard_active).not_scrolling .im_browser_row:not(.disabled_dm):hover, #im_browser .im_browser_row.highlighted /* New direct message modal, hovering over row */
+ts-thread ts-message.new_reply, /* when a thread has a new message */
+#im_browser #im_list_container:not(.keyboard_active).not_scrolling .im_browser_row:not(.disabled_dm):hover, #im_browser .im_browser_row.highlighted, /* New direct message modal, hovering over row */
+
+/* Unreads Tab */
+body .unread_group_header, body .unread_group_header_name a,
+
 .msg_inline_attachment_column.column_border
-  { background: rgb(40, 40, 40) !important; color: white;  }
+  { background: rgb(40, 40, 40) !important; color: white !important;  }
 
 /* Hover - Border */
 #client_body:not(.onboarding):before, /* Top day divider */
@@ -381,9 +396,10 @@ ts-message.selected:not(.delete_mode),
 body .ql-placeholder
   { color: rgb(200,200,200); }
 
-/* Override black text */
-.feature_name_tagging_client ts-message .mention /* channel mention */
-  { color: black; }
+/* Override text with black text */
+.feature_name_tagging_client ts-message .mention, /* channel mention */
+body .comment .mention, body .ql-editor .mention, body ts-message .mention /* more mentions */
+  { color: black !important; }
 
 /* Remove the white border between channel switcher and messages */
 body #col_messages,
@@ -530,7 +546,7 @@ function getCurrentSite() {
 	if (url.indexOf('facebook.com') != -1) toReturn = 'facebook';
 	if (url.indexOf('play.pocketcasts.com') != -1) toReturn = 'pocketcasts';
 	if (url.indexOf('notebook.zoho.com') != -1) toReturn = 'zohonotebook';
-	if (url.indexOf('slack.com/messages') != -1 || url.indexOf('slack.com/threads') != -1) toReturn = 'slack';
+	if (url.indexOf('slack.com/messages') != -1 || url.indexOf('slack.com/threads') != -1 || url.indexOf('slack.com/unreads') != -1) toReturn = 'slack';
 
 	return toReturn;
 }
