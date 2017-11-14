@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.39
+// @version      0.2.40
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -340,6 +340,7 @@ body .unread_msgs_loading,
 .fs_modal_file_viewer_content .viewer
   { background: rgb(27, 27, 27) !important; color: white !important; -webkit-text-stroke-width: 1px; -webkit-text-stroke-color: rgba(101, 101, 101, 0.1); }
 
+.sli_briefing, /* New Unreads Banner */
 #msgs_div .unread_divider.no_unreads .divider_label /* New Message line indicator text */
   { background: rgb(27, 27, 27) !important; }
 
