@@ -2,7 +2,7 @@
 // @name         Inverter
 // @icon         http://i.imgur.com/wBrRGXc.png
 // @namespace    skoshy.com
-// @version      0.2.40
+// @version      0.2.41
 // @description  Inverts webpages with a hotkey
 // @author       Stefan Koshy
 // @run-at       document-start
@@ -349,6 +349,9 @@ body #archives_end_div_msg_lim h1,
 body #end_display_msg_lim h1,
 body ts-message,
 body #client_body ts-message .message_content .message_sender,
+body .c-message__sender,
+body .c-message--light .c-message__sender .c-message__sender_link,
+body .c-message__body,
 body ts-thread .thread_header .thread_channel_name a,
 .c-member__display-name, .c-team__display-name, .c-usergroup__handle,
 
